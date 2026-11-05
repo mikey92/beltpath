@@ -1,0 +1,60 @@
+- !<AssetImportMetadata/d2642a01-f6b1-4c59-b922-fabb33be97e5>
+  ImportedAssetIds:
+    TypeScriptAsset: !<reference> db1eb7f0-3fc9-460d-9528-178ad6b879cd
+  ImporterName: TypeScriptAssetImporter
+  PrimaryAsset: !<reference> db1eb7f0-3fc9-460d-9528-178ad6b879cd
+  PackageType: NotAPackage
+  LegacyPackagePolicy: ~
+  ExtraData:
+    {}
+  AssetDataMap:
+    TypeScriptAsset: !<own> d8aec23a-a778-4e5f-935b-bb443f332156
+  DependentFiles:
+    []
+  ImporterSettings: !<AssetImporterSettings>
+    {}
+  CompressionSettings: !<own> 00000000-0000-0000-0000-000000000000
+- !<TypeScriptAssetData/d8aec23a-a778-4e5f-935b-bb443f332156>
+  SvgIcon: ""
+  SetupScript:
+    code: ""
+  Description: ""
+  VersionMajor: 0
+  VersionMinor: 0
+  VersionPatch: 0
+  VersionPrerelease: ""
+  UpdateOrder: 0
+  ComponentUid: 457b0faf-7398-4d44-9f86-7ed2cc04c907
+  ExportUid: 00000000-0000-0000-0000-000000000000
+  PackagePolicy: CanBeUnpacked
+  ScriptInputsHidden:
+    arrowColor: false
+    arrowSizeCm: false
+    distanceCm: false
+    edgeOffsetCm: false
+  ScriptTypesHidden:
+    {}
+  ReadMe: !<reference> 00000000-0000-0000-0000-000000000000
+  DeclarationFile: !<reference> 00000000-0000-0000-0000-000000000000
+  Tags:
+    []
+  Attachments:
+    []
+  DefaultScriptInputs:
+    - distanceCm: !<float> 60.000000
+      edgeOffsetCm: !<float> 9.000000
+      arrowSizeCm: !<float> 3.000000
+      arrowColor: !<Vec4> {x: 0.450000, y: 0.850000, z: 1.000000, w: 1.000000}
+  ScriptTypes:
+    -
+      {}
+  InputLines:
+    - '// @ui {"widget":"label", "label":"<span style=\"color: #60A5FA;\">BeltPathOffViewCueUI – edge-of-view arrow toward the seat</span>"}'
+    - '// @ui {"widget":"separator"}'
+    - '// @ui {"widget":"label", "label":"<span style=\"color: #60A5FA;\">Settings</span>"}'
+    - '// @ui {"widget":"group_start", "label":"Settings"}'
+    - '// @input float distanceCm = 60 {"hint":"Distance in front of the eyes where the arrow floats (cm).", "widget":"slider", "min":30, "max":120, "step":1}'
+    - '// @input float edgeOffsetCm = 9 {"hint":"How far from the view center the arrow sits (cm at that distance).", "widget":"slider", "min":2, "max":20, "step":0.5}'
+    - '// @input float arrowSizeCm = 3 {"hint":"Arrow size (cm).", "widget":"slider", "min":1, "max":8, "step":0.25}'
+    - '// @input vec4 arrowColor = "{0.45,0.85,1.0,1}" {"hint":"Arrow tint (light blue, matches the belt path band).", "widget":"color"}'
+    - '// @ui {"widget":"group_end"}'

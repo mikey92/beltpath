@@ -1,0 +1,103 @@
+- !<AssetImportMetadata/1e15f7cc-7b2a-42c6-a626-2bfe038c3d26>
+  ImportedAssetIds:
+    TypeScriptAsset: !<reference> 0e7e39b3-fd6e-4c45-a64b-12f344c8205e
+  ImporterName: TypeScriptAssetImporter
+  PrimaryAsset: !<reference> 0e7e39b3-fd6e-4c45-a64b-12f344c8205e
+  PackageType: NotAPackage
+  LegacyPackagePolicy: ~
+  ExtraData:
+    {}
+  AssetDataMap:
+    TypeScriptAsset: !<own> 41bf7963-371e-4d3f-9c0a-391c0b05f72e
+  DependentFiles:
+    []
+  ImporterSettings: !<AssetImporterSettings>
+    {}
+  CompressionSettings: !<own> 00000000-0000-0000-0000-000000000000
+- !<TypeScriptAssetData/41bf7963-371e-4d3f-9c0a-391c0b05f72e>
+  SvgIcon: ""
+  SetupScript:
+    code: ""
+  Description: ""
+  VersionMajor: 0
+  VersionMinor: 0
+  VersionPatch: 0
+  VersionPrerelease: ""
+  UpdateOrder: 0
+  ComponentUid: 5ee122a0-fe83-4a88-8079-b10318f1d2e8
+  ExportUid: 00000000-0000-0000-0000-000000000000
+  PackagePolicy: CanBeUnpacked
+  ScriptInputsHidden:
+    alignZero: false
+    answers: false
+    audio: false
+    beltPathTarget: false
+    defaultMode: false
+    demoToggle: false
+    edgePin: false
+    inViewRadiusCm: false
+    looseLimitCm: false
+    offViewCue: false
+    overlay: false
+    reduceMotion: false
+    resultCard: false
+    ruler: false
+    seatShake: false
+    startLabels: false
+    tightLimitCm: false
+  ScriptTypesHidden:
+    {}
+  ReadMe: !<reference> 00000000-0000-0000-0000-000000000000
+  DeclarationFile: !<reference> 00000000-0000-0000-0000-000000000000
+  Tags:
+    []
+  Attachments:
+    []
+  DefaultScriptInputs:
+    - seatShake: !<MappingBased.AssignableType_1> 00000000-0000-0000-0000-000000000000
+      overlay: !<MappingBased.AssignableType_2> 00000000-0000-0000-0000-000000000000
+      ruler: !<MappingBased.AssignableType_3> 00000000-0000-0000-0000-000000000000
+      answers: !<MappingBased.AssignableType_4> 00000000-0000-0000-0000-000000000000
+      resultCard: !<MappingBased.AssignableType_5> 00000000-0000-0000-0000-000000000000
+      demoToggle: !<MappingBased.AssignableType_6> 00000000-0000-0000-0000-000000000000
+      offViewCue: !<MappingBased.AssignableType_7> 00000000-0000-0000-0000-000000000000
+      audio: !<MappingBased.AssignableType_8> 00000000-0000-0000-0000-000000000000
+      beltPathTarget: !<reference.SceneObject> 00000000-0000-0000-0000-000000000000
+      startLabels: !<MappingBased.AssignableType_9> 00000000-0000-0000-0000-000000000000
+      alignZero: !<MappingBased.AssignableType_10> 00000000-0000-0000-0000-000000000000
+      edgePin: !<reference.SceneObject> 00000000-0000-0000-0000-000000000000
+      looseLimitCm: !<float> 4.000000
+      tightLimitCm: !<float> 1.000000
+      defaultMode: Loose
+      reduceMotion: false
+      inViewRadiusCm: !<float> 4.000000
+  ScriptTypes:
+    -
+      {}
+  InputLines:
+    - '// @ui {"widget":"label", "label":"<span style=\"color: #60A5FA;\">BeltPathMain – flow of the 1-inch belt path check</span>"}'
+    - '// @ui {"widget":"separator"}'
+    - '// @ui {"widget":"label", "label":"<span style=\"color: #60A5FA;\">References</span>"}'
+    - '// @ui {"widget":"group_start", "label":"References"}'
+    - '// @input AssignableType_1 seatShake {"hint":"Grab-and-shake controller on CarSeat/SeatGrabHandle."}'
+    - '// @input AssignableType_2 overlay {"hint":"Belt path band + ghost outline controller."}'
+    - '// @input AssignableType_3 ruler {"hint":"Vehicle-anchored 10 cm ruler."}'
+    - '// @input AssignableType_4 answers {"hint":"The two answer buttons (10 cm above the belt path)."}'
+    - '// @input AssignableType_5 resultCard {"hint":"Result card (same spot as the buttons)."}'
+    - '// @input AssignableType_6 demoToggle {"hint":"Demo-only Loose/Tight toggle on the left door armrest."}'
+    - '// @input AssignableType_7 offViewCue {"hint":"Edge-of-view arrow pointing at the seat when it is out of view at start."}'
+    - '// @input AssignableType_8 audio {"hint":"Chime / click cues."}'
+    - '// @input SceneObject beltPathTarget {"hint":"Point on the belt path used to test whether the seat is in view."}'
+    - '// @input AssignableType_9 startLabels {"hint":"\"Belt path\" / \"Rear-facing car seat\" labels shown for 2 s at every start."}'
+    - '// @input AssignableType_10 alignZero {"hint":"One-time pinch on the seat edge that sets the ruler 0 (no input = ruler already aligned)."}'
+    - '// @input SceneObject edgePin {"hint":"Edge pin on the car seat; hidden until the ruler is aligned."}'
+    - '// @ui {"widget":"group_end"}'
+    - '// @ui {"widget":"separator"}'
+    - '// @ui {"widget":"label", "label":"<span style=\"color: #60A5FA;\">Settings</span>"}'
+    - '// @ui {"widget":"group_start", "label":"Settings"}'
+    - '// @input float looseLimitCm = 4 {"hint":"Demo setting: how far the seat can move in Loose mode (cm). Crosses the 2.5 cm line.", "widget":"slider", "min":0.5, "max":8, "step":0.5}'
+    - '// @input float tightLimitCm = 1 {"hint":"Demo setting: how far the seat can move in Tight mode (cm).", "widget":"slider", "min":0, "max":4, "step":0.25}'
+    - '// @input string defaultMode = "Loose" {"hint":"Demo mode at start.", "widget":"combobox", "values":[{"label":"Loose", "value":"Loose"}, {"label":"Tight", "value":"Tight"}]}'
+    - '// @input bool reduceMotion {"hint":"Reduce motion: every animation is instant (all durations 0). The seat still follows the hand 1:1."}'
+    - "// @input float inViewRadiusCm = 4 {\"hint\":\"Radius (cm) around the belt path target that must be in view to count as 'in view'.\", \"widget\":\"slider\", \"min\":1, \"max\":20, \"step\":0.5}"
+    - '// @ui {"widget":"group_end"}'

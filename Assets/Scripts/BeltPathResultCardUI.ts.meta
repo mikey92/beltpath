@@ -1,0 +1,91 @@
+- !<AssetImportMetadata/f6cd697f-009b-44e7-b1b4-2e1a7adba287>
+  ImportedAssetIds:
+    TypeScriptAsset: !<reference> 21019ae5-462f-487b-8d4e-e83de00e7da2
+  ImporterName: TypeScriptAssetImporter
+  PrimaryAsset: !<reference> 21019ae5-462f-487b-8d4e-e83de00e7da2
+  PackageType: NotAPackage
+  LegacyPackagePolicy: ~
+  ExtraData:
+    {}
+  AssetDataMap:
+    TypeScriptAsset: !<own> 54153a5a-cec5-4904-a6f3-bea0b6e53793
+  DependentFiles:
+    []
+  ImporterSettings: !<AssetImporterSettings>
+    {}
+  CompressionSettings: !<own> 00000000-0000-0000-0000-000000000000
+- !<TypeScriptAssetData/54153a5a-cec5-4904-a6f3-bea0b6e53793>
+  SvgIcon: ""
+  SetupScript:
+    code: ""
+  Description: ""
+  VersionMajor: 0
+  VersionMinor: 0
+  VersionPatch: 0
+  VersionPrerelease: ""
+  UpdateOrder: 0
+  ComponentUid: 9d8b6c0e-5b41-41eb-949a-48003077edca
+  ExportUid: 00000000-0000-0000-0000-000000000000
+  PackagePolicy: CanBeUnpacked
+  ScriptInputsHidden:
+    bodyTextCm: false
+    borderCm: false
+    cardFill: false
+    cardSizeCm: false
+    checkAgainLabel: false
+    crossedBody: false
+    crossedBorderColor: false
+    crossedFootnote: false
+    footnoteTextCm: false
+    stayedBody: false
+    stayedBorderColor: false
+    stayedFootnote: false
+    textWeight: false
+  ScriptTypesHidden:
+    {}
+  ReadMe: !<reference> 00000000-0000-0000-0000-000000000000
+  DeclarationFile: !<reference> 00000000-0000-0000-0000-000000000000
+  Tags:
+    []
+  Attachments:
+    []
+  DefaultScriptInputs:
+    - crossedBody: 1  Lock the belt|2  Press the seat down hard|3  Pull the belt tight
+      crossedFootnote: "Lock = vehicle belt lock or the seat's lock-off"
+      stayedBody: "No problem seen at the belt path.|One check, not a full inspection."
+      stayedFootnote: "Free check: nhtsa.gov > Car Seats > Inspection, or Safe Kids Worldwide"
+      checkAgainLabel: Check again
+      cardSizeCm: !<Vec2> {x: 16.000000, y: 8.000000}
+      bodyTextCm: 0.800000
+      footnoteTextCm: 0.700000
+      textWeight: !<float> 600.000000
+      crossedBorderColor: !<Vec4> {x: 1.000000, y: 0.300000, z: 0.300000, w: 1.000000}
+      stayedBorderColor: !<Vec4> {x: 1.000000, y: 1.000000, z: 1.000000, w: 1.000000}
+      cardFill: !<Vec4> {x: 0.350000, y: 0.420000, z: 0.550000, w: 0.850000}
+      borderCm: 0.300000
+  ScriptTypes:
+    -
+      {}
+  InputLines:
+    - '// @ui {"widget":"label", "label":"<span style=\"color: #60A5FA;\">BeltPathResultCardUI – red tightening card / inspection-station card</span>"}'
+    - '// @ui {"widget":"separator"}'
+    - '// @ui {"widget":"label", "label":"<span style=\"color: #60A5FA;\">Card text (brief, review 2)</span>"}'
+    - '// @ui {"widget":"group_start", "label":"Text"}'
+    - '// @input string crossedBody = "1  Lock the belt|2  Press the seat down hard|3  Pull the belt tight" {"hint":"Red card: the three tightening steps (NHTSA install order), separated by | (one line each).", "widget":"text_area"}'
+    - "// @input string crossedFootnote = \"Lock = vehicle belt lock or the seat's lock-off\" {\"hint\":\"Red card footnote (0.7 cm).\"}"
+    - '// @input string stayedBody = "No problem seen at the belt path.|One check, not a full inspection." {"hint":"White card body lines, separated by | (one line each).", "widget":"text_area"}'
+    - '// @input string stayedFootnote = "Free check: nhtsa.gov > Car Seats > Inspection, or Safe Kids Worldwide" {"hint":"White card footnote (0.7 cm)."}'
+    - '// @input string checkAgainLabel = "Check again" {"hint":"Label of the restart button."}'
+    - '// @ui {"widget":"group_end"}'
+    - '// @ui {"widget":"separator"}'
+    - '// @ui {"widget":"label", "label":"<span style=\"color: #60A5FA;\">Settings</span>"}'
+    - '// @ui {"widget":"group_start", "label":"Settings"}'
+    - "// @input vec2 cardSizeCm = {16,8} {\"hint\":\"Card size (cm) before the root's 1.25x scale (review 2: both cards 16 x 8).\"}"
+    - '// @input float bodyTextCm = 0.8 {"hint":"Body text height (cm of em) for both cards.", "widget":"slider", "min":0.4, "max":1.5, "step":0.05}'
+    - '// @input float footnoteTextCm = 0.7 {"hint":"Footnote height (cm of em, >= 0.7).", "widget":"slider", "min":0.4, "max":1.5, "step":0.05}'
+    - '// @input float textWeight = 600 {"hint":"Text weight (600 = semibold).", "widget":"slider", "min":300, "max":900, "step":100}'
+    - '// @input vec4 crossedBorderColor = "{1,0.3,0.3,1}" {"hint":"Border color of the \"Crossed the line\" card.", "widget":"color"}'
+    - '// @input vec4 stayedBorderColor = "{1,1,1,1}" {"hint":"Border color of the \"Stayed inside\" card (white, not green).", "widget":"color"}'
+    - '// @input vec4 cardFill = "{0.35,0.42,0.55,0.85}" {"hint":"Frosted card fill (review 2 contrast: ~5.4:1 with white text; never black).", "widget":"color"}'
+    - '// @input float borderCm = 0.3 {"hint":"Card border thickness (cm).", "widget":"slider", "min":0.05, "max":0.8, "step":0.05}'
+    - '// @ui {"widget":"group_end"}'

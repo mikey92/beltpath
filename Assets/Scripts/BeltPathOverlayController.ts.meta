@@ -1,0 +1,82 @@
+- !<AssetImportMetadata/5a95ea54-84fa-4ef0-914f-ae7c905268f5>
+  ImportedAssetIds:
+    TypeScriptAsset: !<reference> c4bb133c-a058-45b4-977d-4d676664f86e
+  ImporterName: TypeScriptAssetImporter
+  PrimaryAsset: !<reference> c4bb133c-a058-45b4-977d-4d676664f86e
+  PackageType: NotAPackage
+  LegacyPackagePolicy: ~
+  ExtraData:
+    {}
+  AssetDataMap:
+    TypeScriptAsset: !<own> 1363c8f0-86bc-4111-9b97-a4fbb9c4256c
+  DependentFiles:
+    []
+  ImporterSettings: !<AssetImporterSettings>
+    {}
+  CompressionSettings: !<own> 00000000-0000-0000-0000-000000000000
+- !<TypeScriptAssetData/1363c8f0-86bc-4111-9b97-a4fbb9c4256c>
+  SvgIcon: ""
+  SetupScript:
+    code: ""
+  Description: ""
+  VersionMajor: 0
+  VersionMinor: 0
+  VersionPatch: 0
+  VersionPrerelease: ""
+  UpdateOrder: 0
+  ComponentUid: 9abf05c8-0388-42a7-bb26-e90bff472c49
+  ExportUid: 00000000-0000-0000-0000-000000000000
+  PackagePolicy: CanBeUnpacked
+  ScriptInputsHidden:
+    bandColor: false
+    bandHighlightColor: false
+    bandRoot: false
+    edgeMesh: false
+    ghostBoxSizeCm: false
+    ghostColor: false
+    ghostEdgeCm: false
+    ghostInflateCm: false
+    ghostRoot: false
+    overlayMaterial: false
+  ScriptTypesHidden:
+    {}
+  ReadMe: !<reference> 00000000-0000-0000-0000-000000000000
+  DeclarationFile: !<reference> 00000000-0000-0000-0000-000000000000
+  Tags:
+    []
+  Attachments:
+    []
+  DefaultScriptInputs:
+    - bandRoot: !<reference.SceneObject> 00000000-0000-0000-0000-000000000000
+      ghostRoot: !<reference.SceneObject> 00000000-0000-0000-0000-000000000000
+      edgeMesh: !<reference.RenderMesh> 00000000-0000-0000-0000-000000000000
+      overlayMaterial: !<reference.Material> 00000000-0000-0000-0000-000000000000
+      bandColor: !<Vec4> {x: 0.450000, y: 0.850000, z: 1.000000, w: 0.950000}
+      bandHighlightColor: !<Vec4> {x: 0.750000, y: 0.950000, z: 1.000000, w: 1.000000}
+      ghostColor: !<Vec4> {x: 1.000000, y: 1.000000, z: 1.000000, w: 0.600000}
+      ghostBoxSizeCm: !<Vec3> {x: 44.000000, y: 16.000000, z: 42.000000}
+      ghostEdgeCm: 0.300000
+      ghostInflateCm: 0.400000
+  ScriptTypes:
+    -
+      {}
+  InputLines:
+    - '// @ui {"widget":"label", "label":"<span style=\"color: #60A5FA;\">BeltPathOverlayController – belt path band + ghost outline</span>"}'
+    - '// @ui {"widget":"separator"}'
+    - '// @ui {"widget":"label", "label":"<span style=\"color: #60A5FA;\">References</span>"}'
+    - '// @ui {"widget":"group_start", "label":"References"}'
+    - '// @input SceneObject bandRoot {"hint":"BeltPathBand group on the car seat; every RenderMeshVisual under it is faded and highlighted."}'
+    - "// @input SceneObject ghostRoot {\"hint\":\"GhostOutline SceneObject at the seat's original position (vehicle-anchored, does not move).\"}"
+    - '// @input Asset.RenderMesh edgeMesh {"hint":"Unit box mesh used to draw the ghost outline edges."}'
+    - '// @input Asset.Material overlayMaterial {"hint":"Unlit transparent material cloned for the ghost edges."}'
+    - '// @ui {"widget":"group_end"}'
+    - '// @ui {"widget":"separator"}'
+    - '// @ui {"widget":"label", "label":"<span style=\"color: #60A5FA;\">Settings</span>"}'
+    - '// @ui {"widget":"group_start", "label":"Settings"}'
+    - '// @input vec4 bandColor = "{0.45,0.85,1.0,0.95}" {"hint":"Belt path band color (bright light blue).", "widget":"color"}'
+    - '// @input vec4 bandHighlightColor = "{0.75,0.95,1.0,1.0}" {"hint":"Band color while the seat is aimed at (hover highlight).", "widget":"color"}'
+    - '// @input vec4 ghostColor = "{1,1,1,0.6}" {"hint":"Ghost outline color — white, semi-transparent, outline only.", "widget":"color"}'
+    - '// @input vec3 ghostBoxSizeCm = "{44,16,42}" {"hint":"Size (cm) of the box the ghost outlines — the car seat base."}'
+    - '// @input float ghostEdgeCm = 0.3 {"hint":"Ghost edge thickness (cm).", "widget":"slider", "min":0.1, "max":0.8, "step":0.05}'
+    - '// @input float ghostInflateCm = 0.4 {"hint":"How far (cm) the ghost sits outside the seat surface so it stays visible at rest.", "widget":"slider", "min":0, "max":1.5, "step":0.05}'
+    - '// @ui {"widget":"group_end"}'

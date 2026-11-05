@@ -1,0 +1,64 @@
+- !<AssetImportMetadata/3cc8abdd-85fa-4678-a8cb-7a9263d4c685>
+  ImportedAssetIds:
+    TypeScriptAsset: !<reference> 0491c32b-f115-4489-b73a-83e71b80bc3d
+  ImporterName: TypeScriptAssetImporter
+  PrimaryAsset: !<reference> 0491c32b-f115-4489-b73a-83e71b80bc3d
+  PackageType: NotAPackage
+  LegacyPackagePolicy: ~
+  ExtraData:
+    {}
+  AssetDataMap:
+    TypeScriptAsset: !<own> 7a53994f-86ca-4f9a-a781-4f3393fb8225
+  DependentFiles:
+    []
+  ImporterSettings: !<AssetImporterSettings>
+    {}
+  CompressionSettings: !<own> 00000000-0000-0000-0000-000000000000
+- !<TypeScriptAssetData/7a53994f-86ca-4f9a-a781-4f3393fb8225>
+  SvgIcon: ""
+  SetupScript:
+    code: ""
+  Description: ""
+  VersionMajor: 0
+  VersionMinor: 0
+  VersionPatch: 0
+  VersionPrerelease: ""
+  UpdateOrder: 0
+  ComponentUid: 1d11e9bf-ddad-471b-89e2-cbf7377ad7b5
+  ExportUid: 00000000-0000-0000-0000-000000000000
+  PackagePolicy: CanBeUnpacked
+  ScriptInputsHidden:
+    debugCollider: false
+    grabBoxSizeCm: false
+    returnSettleWT: false
+    seatRoot: false
+  ScriptTypesHidden:
+    {}
+  ReadMe: !<reference> 00000000-0000-0000-0000-000000000000
+  DeclarationFile: !<reference> 00000000-0000-0000-0000-000000000000
+  Tags:
+    []
+  Attachments:
+    []
+  DefaultScriptInputs:
+    - seatRoot: !<reference.SceneObject> 00000000-0000-0000-0000-000000000000
+      grabBoxSizeCm: !<Vec3> {x: 48.000000, y: 20.000000, z: 46.000000}
+      returnSettleWT: 6.400000
+      debugCollider: false
+  ScriptTypes:
+    -
+      {}
+  InputLines:
+    - '// @ui {"widget":"label", "label":"<span style=\"color: #60A5FA;\">BeltPathSeatShakeController – grab-and-shake stand-in for the car seat</span>"}'
+    - '// @ui {"widget":"separator"}'
+    - '// @ui {"widget":"label", "label":"<span style=\"color: #60A5FA;\">References</span>"}'
+    - '// @ui {"widget":"group_start", "label":"References"}'
+    - '// @input SceneObject seatRoot {"hint":"The movable CarSeat root. Only its X position changes; it springs back to where it started."}'
+    - '// @ui {"widget":"group_end"}'
+    - '// @ui {"widget":"separator"}'
+    - '// @ui {"widget":"label", "label":"<span style=\"color: #60A5FA;\">Settings</span>"}'
+    - '// @ui {"widget":"group_start", "label":"Settings"}'
+    - '// @input vec3 grabBoxSizeCm = "{48,14,46}" {"hint":"Size (cm) of the grab box around the seat base (belt path height). Big so it is easy to pinch, but no taller than 14 cm: the answer buttons and card float just above it, and a taller box would catch the click ray before them."}'
+    - '// @input float returnSettleWT = 6.4 {"hint":"Critically damped return: w*T at which the spring counts as home (6.4 leaves ~1% of the offset, then it snaps to 0). Keep it at 6 or more: lower values leave a visible snap at the end.", "widget":"slider", "min":6, "max":10, "step":0.1}'
+    - '// @input bool debugCollider {"hint":"Show the grab collider wireframe for debugging."}'
+    - '// @ui {"widget":"group_end"}'

@@ -1,0 +1,60 @@
+- !<AssetImportMetadata/0bf490ba-e844-4b85-8a84-81b835c512fb>
+  ImportedAssetIds:
+    TypeScriptAsset: !<reference> 4ce409b4-b19c-4b9b-9358-fa37c6203111
+  ImporterName: TypeScriptAssetImporter
+  PrimaryAsset: !<reference> 4ce409b4-b19c-4b9b-9358-fa37c6203111
+  PackageType: NotAPackage
+  LegacyPackagePolicy: ~
+  ExtraData:
+    {}
+  AssetDataMap:
+    TypeScriptAsset: !<own> d127243a-15e6-4279-9791-4412c2c38814
+  DependentFiles:
+    []
+  ImporterSettings: !<AssetImporterSettings>
+    {}
+  CompressionSettings: !<own> 00000000-0000-0000-0000-000000000000
+- !<TypeScriptAssetData/d127243a-15e6-4279-9791-4412c2c38814>
+  SvgIcon: ""
+  SetupScript:
+    code: ""
+  Description: ""
+  VersionMajor: 0
+  VersionMinor: 0
+  VersionPatch: 0
+  VersionPrerelease: ""
+  UpdateOrder: 0
+  ComponentUid: cd5d2688-d243-46cb-a45c-28446abd50da
+  ExportUid: 00000000-0000-0000-0000-000000000000
+  PackagePolicy: CanBeUnpacked
+  ScriptInputsHidden:
+    beltPathAnchor: false
+    beltPathText: false
+    shellAnchor: false
+    shellText: false
+    textCm: false
+  ScriptTypesHidden:
+    {}
+  ReadMe: !<reference> 00000000-0000-0000-0000-000000000000
+  DeclarationFile: !<reference> 00000000-0000-0000-0000-000000000000
+  Tags:
+    []
+  Attachments:
+    []
+  DefaultScriptInputs:
+    - beltPathAnchor: !<reference.SceneObject> 00000000-0000-0000-0000-000000000000
+      shellAnchor: !<reference.SceneObject> 00000000-0000-0000-0000-000000000000
+      beltPathText: Belt path
+      shellText: Rear-facing car seat
+      textCm: 1.200000
+  ScriptTypes:
+    -
+      {}
+  InputLines:
+    - '// @ui {"widget":"label", "label":"<span style=\"color: #60A5FA;\">BeltPathStartLabelsUI – \"Belt path\" / \"Rear-facing car seat\" for 2 s</span>"}'
+    - '// @ui {"widget":"separator"}'
+    - '// @input SceneObject beltPathAnchor {"hint":"Anchor beside the belt path band."}'
+    - '// @input SceneObject shellAnchor {"hint":"Anchor on the car seat shell."}'
+    - '// @input string beltPathText = "Belt path"'
+    - '// @input string shellText = "Rear-facing car seat"'
+    - '// @input float textCm = 1.2 {"hint":"Text height (cm of em).", "widget":"slider", "min":0.5, "max":2, "step":0.05}'

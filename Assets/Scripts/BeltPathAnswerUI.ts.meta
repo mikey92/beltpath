@@ -1,0 +1,75 @@
+- !<AssetImportMetadata/83246789-329b-4e18-88a5-4ef1b8eb8a71>
+  ImportedAssetIds:
+    TypeScriptAsset: !<reference> 39f30693-6b31-41b6-ac50-9a99f4e36e0d
+  ImporterName: TypeScriptAssetImporter
+  PrimaryAsset: !<reference> 39f30693-6b31-41b6-ac50-9a99f4e36e0d
+  PackageType: NotAPackage
+  LegacyPackagePolicy: ~
+  ExtraData:
+    {}
+  AssetDataMap:
+    TypeScriptAsset: !<own> 9cf90c90-0c47-449f-93c5-a1ccc80c14a8
+  DependentFiles:
+    []
+  ImporterSettings: !<AssetImporterSettings>
+    {}
+  CompressionSettings: !<own> 00000000-0000-0000-0000-000000000000
+- !<TypeScriptAssetData/9cf90c90-0c47-449f-93c5-a1ccc80c14a8>
+  SvgIcon: ""
+  SetupScript:
+    code: ""
+  Description: ""
+  VersionMajor: 0
+  VersionMinor: 0
+  VersionPatch: 0
+  VersionPrerelease: ""
+  UpdateOrder: 0
+  ComponentUid: f1322932-fd1e-40a0-8f70-81baf3c6f9b9
+  ExportUid: 00000000-0000-0000-0000-000000000000
+  PackagePolicy: CanBeUnpacked
+  ScriptInputsHidden:
+    borderCm: false
+    buttonHeightCm: false
+    buttonWidthCm: false
+    crossedBorderColor: false
+    crossedLabel: false
+    gapCm: false
+    labelSize: false
+    stayedBorderColor: false
+    stayedLabel: false
+  ScriptTypesHidden:
+    {}
+  ReadMe: !<reference> 00000000-0000-0000-0000-000000000000
+  DeclarationFile: !<reference> 00000000-0000-0000-0000-000000000000
+  Tags:
+    []
+  Attachments:
+    []
+  DefaultScriptInputs:
+    - crossedLabel: Crossednthe line
+      stayedLabel: Stayedninside
+      buttonWidthCm: !<float> 7.000000
+      buttonHeightCm: !<float> 4.000000
+      gapCm: !<float> 2.000000
+      labelSize: !<float> 53.000000
+      crossedBorderColor: !<Vec4> {x: 1.000000, y: 0.300000, z: 0.300000, w: 1.000000}
+      stayedBorderColor: !<Vec4> {x: 0.350000, y: 0.950000, z: 0.500000, w: 1.000000}
+      borderCm: 0.250000
+  ScriptTypes:
+    -
+      {}
+  InputLines:
+    - '// @ui {"widget":"label", "label":"<span style=\"color: #60A5FA;\">BeltPathAnswerUI – \"Crossed the line\" / \"Stayed inside\" buttons</span>"}'
+    - '// @ui {"widget":"separator"}'
+    - '// @ui {"widget":"label", "label":"<span style=\"color: #60A5FA;\">Settings</span>"}'
+    - '// @ui {"widget":"group_start", "label":"Settings"}'
+    - '// @input string crossedLabel = "Crossed the line" {"hint":"Left button label (wraps onto two lines inside the button)."}'
+    - '// @input string stayedLabel = "Stayed inside" {"hint":"Right button label (wraps onto two lines inside the button)."}'
+    - '// @input float buttonWidthCm = 7 {"hint":"Button width (cm).", "widget":"slider", "min":4, "max":12, "step":0.5}'
+    - '// @input float buttonHeightCm = 4 {"hint":"Button height (cm).", "widget":"slider", "min":2, "max":8, "step":0.5}'
+    - '// @input float gapCm = 2 {"hint":"Gap between the two buttons (cm).", "widget":"slider", "min":0, "max":6, "step":0.25}'
+    - '// @input float labelSize = 53 {"hint":"Label text size (Text.size; 53 = 1.2 cm em height).", "widget":"slider", "min":20, "max":80, "step":1}'
+    - '// @input vec4 crossedBorderColor = "{1,0.3,0.3,1}" {"hint":"Border color of the \"Crossed the line\" button.", "widget":"color"}'
+    - '// @input vec4 stayedBorderColor = "{0.35,0.95,0.5,1}" {"hint":"Border color of the \"Stayed inside\" button.", "widget":"color"}'
+    - '// @input float borderCm = 0.3 {"hint":"Border thickness (cm).", "widget":"slider", "min":0.05, "max":0.6, "step":0.05}'
+    - '// @ui {"widget":"group_end"}'

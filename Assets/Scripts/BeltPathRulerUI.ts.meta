@@ -1,0 +1,109 @@
+- !<AssetImportMetadata/4aff57bb-0315-4822-9dfc-0613f6825924>
+  ImportedAssetIds:
+    TypeScriptAsset: !<reference> 5db7a3c7-7579-4de0-912f-e7deccc9850a
+  ImporterName: TypeScriptAssetImporter
+  PrimaryAsset: !<reference> 5db7a3c7-7579-4de0-912f-e7deccc9850a
+  PackageType: NotAPackage
+  LegacyPackagePolicy: ~
+  ExtraData:
+    {}
+  AssetDataMap:
+    TypeScriptAsset: !<own> d6fbd2a5-251b-4db0-906d-abe3ba8263b3
+  DependentFiles:
+    []
+  ImporterSettings: !<AssetImporterSettings>
+    {}
+  CompressionSettings: !<own> 00000000-0000-0000-0000-000000000000
+- !<TypeScriptAssetData/d6fbd2a5-251b-4db0-906d-abe3ba8263b3>
+  SvgIcon: ""
+  SetupScript:
+    code: ""
+  Description: ""
+  VersionMajor: 0
+  VersionMinor: 0
+  VersionPatch: 0
+  VersionPrerelease: ""
+  UpdateOrder: 0
+  ComponentUid: fda7168f-5cbe-4ec5-b067-50da54ab95d3
+  ExportUid: 00000000-0000-0000-0000-000000000000
+  PackagePolicy: CanBeUnpacked
+  ScriptInputsHidden:
+    boxMesh: false
+    labelSize: false
+    labelStartCm: false
+    labelTiltDeg: false
+    labelYawDeg: false
+    leaderCm: false
+    lengthCm: false
+    numberZCm: false
+    overlayMaterial: false
+    redLabelSize: false
+    redLineAtCm: false
+    redLineColor: false
+    redLineLabel: false
+    redLineWidthCm: false
+    redPlateHeightCm: false
+    stripColor: false
+    tickColor: false
+    tickSpacingCm: false
+    zeroLabelNudgeCm: false
+  ScriptTypesHidden:
+    {}
+  ReadMe: !<reference> 00000000-0000-0000-0000-000000000000
+  DeclarationFile: !<reference> 00000000-0000-0000-0000-000000000000
+  Tags:
+    []
+  Attachments:
+    []
+  DefaultScriptInputs:
+    - boxMesh: !<reference.RenderMesh> 00000000-0000-0000-0000-000000000000
+      overlayMaterial: !<reference.Material> 00000000-0000-0000-0000-000000000000
+      lengthCm: !<float> 10.000000
+      tickSpacingCm: 0.500000
+      redLineAtCm: 2.500000
+      redLineWidthCm: 0.400000
+      redPlateHeightCm: !<float> 3.000000
+      stripColor: !<Vec4> {x: 0.920000, y: 0.920000, z: 0.950000, w: 0.350000}
+      tickColor: !<Vec4> {x: 1.000000, y: 1.000000, z: 1.000000, w: 1.000000}
+      redLineColor: !<Vec4> {x: 1.000000, y: 0.200000, z: 0.200000, w: 1.000000}
+      redLineLabel: 2.5 cm (1 in)
+      labelSize: !<float> 18.000000
+      redLabelSize: !<float> 61.000000
+      labelTiltDeg: !<float> 32.000000
+      labelYawDeg: !<float> 33.000000
+      numberZCm: -1.200000
+      zeroLabelNudgeCm: 0.400000
+      leaderCm: 0.080000
+      labelStartCm: 4.800000
+  ScriptTypes:
+    -
+      {}
+  InputLines:
+    - '// @ui {"widget":"label", "label":"<span style=\"color: #60A5FA;\">BeltPathRulerUI – 10 cm ruler with the 1-inch red line</span>"}'
+    - '// @ui {"widget":"separator"}'
+    - '// @ui {"widget":"label", "label":"<span style=\"color: #60A5FA;\">References</span>"}'
+    - '// @ui {"widget":"group_start", "label":"References"}'
+    - '// @input Asset.RenderMesh boxMesh {"hint":"Unit box mesh used for the strip, ticks and red line."}'
+    - '// @input Asset.Material overlayMaterial {"hint":"Unlit transparent material cloned for every ruler part."}'
+    - '// @ui {"widget":"group_end"}'
+    - '// @ui {"widget":"separator"}'
+    - '// @ui {"widget":"label", "label":"<span style=\"color: #60A5FA;\">Settings</span>"}'
+    - '// @ui {"widget":"group_start", "label":"Settings"}'
+    - '// @input float lengthCm = 10 {"hint":"Ruler length (cm).", "widget":"slider", "min":5, "max":20, "step":0.5}'
+    - '// @input float tickSpacingCm = 0.5 {"hint":"Spacing between tick marks (cm).", "widget":"slider", "min":0.1, "max":2, "step":0.1}'
+    - '// @input float redLineAtCm = 2.5 {"hint":"Position of the red line (cm). 2.5 cm = 1 inch, the NHTSA movement limit.", "widget":"slider", "min":0.5, "max":10, "step":0.1}'
+    - '// @input float redLineWidthCm = 0.6 {"hint":"Red plate width along the ruler (cm).", "widget":"slider", "min":0.1, "max":1.5, "step":0.05}'
+    - '// @input float redPlateHeightCm = 3 {"hint":"Red plate height (cm). It stands upright so the edge pin visibly passes it.", "widget":"slider", "min":0.5, "max":6, "step":0.1}'
+    - '// @input vec4 stripColor = "{0.42,0.45,0.52,0.9}" {"hint":"Ruler strip color: mid gray so the white numbers stand out (never black — additive display).", "widget":"color"}'
+    - '// @input vec4 tickColor = "{1,1,1,1}" {"hint":"Tick mark color.", "widget":"color"}'
+    - '// @input vec4 redLineColor = "{1,0.2,0.2,1}" {"hint":"Red line color.", "widget":"color"}'
+    - '// @input string redLineLabel = "1 in / 2.5 cm" {"hint":"Label just above the red line."}'
+    - '// @input float labelSize = 35 {"hint":"Tick number size (Text.size units; 35 gives ~0.8 cm tall digits, 31 ~0.7 cm). 0.8 cm still leaves a gap between numbers 1 cm apart.", "widget":"slider", "min":10, "max":90, "step":1}'
+    - '// @input float redLabelSize = 61 {"hint":"Red-line label size (~61 gives ~1.0 cm tall capitals/digits).", "widget":"slider", "min":10, "max":90, "step":1}'
+    - "// @input float labelTiltDeg = 32 {\"hint\":\"Tilt (degrees) of the standing labels toward the kneeling parent's eyes (0 = upright, 90 = flat).\", \"widget\":\"slider\", \"min\":0, \"max\":90, \"step\":1}"
+    - '// @input float labelYawDeg = 33 {"hint":"Turn (degrees, about the vertical) of the labels toward the kneeling parent, who kneels in front of the seat ~35 deg off its side axis.", "widget":"slider", "min":-90, "max":90, "step":1}'
+    - "// @input float numberZCm = -1.2 {\"hint\":\"Where the tick numbers stand across the strip (cm, ruler z; -1.2 = the strip's back edge, under the ticks).\", \"widget\":\"slider\", \"min\":-1.5, \"max\":1.5, \"step\":0.1}"
+    - '// @input float zeroLabelNudgeCm = 0.4 {"hint":"How far (cm) the \"0\" number moves toward the parent and to their left so the ghost line, edge pin and seat corner at 0 do not cover it. The other numbers stay under their ticks.", "widget":"slider", "min":0, "max":1.5, "step":0.05}'
+    - '// @input float leaderCm = 0.08 {"hint":"Red leader line thickness (cm) from the label to the top of the red plate.", "widget":"slider", "min":0.02, "max":0.3, "step":0.01}'
+    - '// @input float labelStartCm = 4.8 {"hint":"Where (cm along the ruler) the red-plate label starts; keep it past the 4 cm demo travel.", "widget":"slider", "min":0, "max":10, "step":0.1}'
+    - '// @ui {"widget":"group_end"}'
