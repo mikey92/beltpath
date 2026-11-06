@@ -2,7 +2,7 @@
 
 A parent kneels at the back seat, pinches the car seat's edge at the belt path, then shakes the seat. A ruler and a ghost outline sit on the seat itself, so the parent can see whether the seat moved past 1 inch. The parent answers with one big button. **The Lens never measures and never says "safe."** If the seat moved too much, it shows NHTSA's three steps. If not, it says this was one check, not a full inspection, and points to a free certified inspection.
 
-**Demo video:** https://youtu.be/NUuIkhDxtkI
+**Demo video:** https://youtu.be/UNYGrH0Ku8c
 
 Built for Devpost's *Learn AR with SPECS*. It was planned with the Devpost Learn skill pack and built with Snap's CLAD in Lens Studio. It runs in the Lens Studio preview, and no glasses are needed.
 
