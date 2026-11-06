@@ -11,6 +11,14 @@
  *               ruler parts only fade). No cards. If the belt path is out of view, a chime plays
  *               and an edge arrow points toward it.
  *
+ * View distance (start only): d = device camera to BeltPathTarget. far when d >= 95 cm for 0.3 s,
+ * near when d <= 80 cm for 0.3 s; in between the mode stays (hysteresis). far (the parent stands at
+ * the door): ruler, numbers, red plate, edge pin, ghost line and align hint/marker fade out (250 ms)
+ * and the seat cannot be grabbed; the band stays at full opacity with the one word "Belt path" 12 cm
+ * above it, and the off-view arrow + chime may point at the seat again. near (kneeling): the word
+ * leaves (180 ms) and the ruler comes back with the start stagger (or the align hint, if not aligned
+ * yet). Distance only changes how much is drawn; nothing is measured.
+ *
  * Motion lives in BeltPathMotion.ts (agent/motion-spec.md); `reduceMotion` turns it all off.
  *   grabbing  → buttons + card hidden. Nothing reacts to the red plate: the Lens never
  *               measures, the parent judges the edge pin against the plate by eye.
@@ -26,7 +34,8 @@
  * getCardText, areAnswerButtonsVisible, isAligned, isAlignHintShown, getAlignPointWorld,
  * isRulerShown, debugResetAlignment, isResultCardVisible, isOffViewCueVisible,
  * pressCrossedLine, pressStayedInside, pressCheckAgain, debugBeginGrab, debugDragTo,
- * debugRelease, getOverlayOpacity, isMotionSettled, setReduceMotion. The instance is also
+ * debugRelease, getOverlayOpacity, isMotionSettled, setReduceMotion, getViewMode,
+ * getViewerDistanceCm, debugSetViewerDistanceCm, isFarLabelShown, isGrabEnabled. The instance is also
  * published as global.beltPath.
  */
 import WorldCameraFinderProvider from "SpectaclesInteractionKit.lspkg/Providers/CameraProvider/WorldCameraFinderProvider"
@@ -42,8 +51,10 @@ import { BeltPathDemoToggleUI } from "./BeltPathDemoToggleUI"
 import { BeltPathOffViewCueUI } from "./BeltPathOffViewCueUI"
 import { BeltPathStartLabelsUI } from "./BeltPathStartLabelsUI"
 import { BeltPathAlignZeroUI } from "./BeltPathAlignZeroUI"
+type ViewMode = "near" | "far"
+
 import {
-  activeTweenCount, debugSetMotionClock, easeOut, finishAllTweens, isReduceMotion, MotionCm, MotionMs, setReduceMotion,
+  activeTweenCount, debugSetMotionClock, easeIn, easeOut, finishAllTweens, isReduceMotion, MotionCm, MotionMs, setReduceMotion,
   setTweenDriver, Tween, tween,
 } from "./BeltPathMotion"
 
@@ -146,6 +157,15 @@ export class BeltPathMain extends BaseScriptComponent {
   private pinHome: vec3 = vec3.zero()
   private rulerHome: vec3 = vec3.zero()
   private ghostHome: vec3 = vec3.zero()
+  private viewMode: ViewMode = "near"
+  private pendingMode: ViewMode | null = null
+  private pendingSince: number = 0
+  private distOverrideCm: number | null = null
+
+  /** View distance thresholds (cm) and how long (s) a side must hold before the mode switches. */
+  private static readonly FAR_CM = 95
+  private static readonly NEAR_CM = 80
+  private static readonly MODE_HOLD_S = 0.3
 
   onAwake(): void {
     if (!this.seatShake || !this.overlay || !this.ruler || !this.answers || !this.resultCard
@@ -198,6 +218,11 @@ export class BeltPathMain extends BaseScriptComponent {
       print("BeltPath: camera at " + p.toString() + ", belt path target at "
         + this.beltPathTarget.getTransform().getWorldPosition().toString())
     }
+    // The first view mode comes straight from the distance (no hold); between 80 and 95 cm it is near.
+    const d = this.getViewerDistanceCm()
+    this.viewMode = d !== null && d >= BeltPathMain.FAR_CM ? "far" : "near"
+    print("BeltPath: view distance " + (d === null ? "unknown" : d.toFixed(1) + " cm") + " -> " + this.viewMode)
+    if (this.startLabels) this.startLabels.setFar(this.viewMode === "far", this.beltPathTarget)
     this.enterStart()
   }
 
@@ -212,7 +237,15 @@ export class BeltPathMain extends BaseScriptComponent {
     this.cueChimed = false
     this.cueDone = false
     this.applyAlignVisibility()
-    if (this.aligned) {
+    if (this.viewMode === "far") {
+      // Far: only the band (fading in, full opacity) and the one word; the ruler waits for near.
+      this.cancelStagger()
+      this.overlay.setOpacity(0)
+      this.overlay.setBandRise(0)
+      this.stagger.push(tween(this, {
+        durMs: MotionMs.fadeIn, ease: easeOut, onUpdate: (v) => this.overlay.setBandOpacity(v),
+      }))
+    } else if (this.aligned) {
       this.runStagger(true)
       if (this.startLabels) this.startLabels.showBriefly()
     } else {
@@ -275,15 +308,19 @@ export class BeltPathMain extends BaseScriptComponent {
     this.edgePin.getTransform().setLocalPosition(new vec3(h.x, h.y - below, h.z))
   }
 
-  /** Before the align pinch: hint on, ruler/ghost/pin hidden, seat not grabbable. After: the reverse. */
+  /**
+   * Before the align pinch: hint on, ruler/ghost/pin hidden, seat not grabbable. After: the reverse.
+   * In the far view everything but the band is off and the hint is hidden.
+   */
   private applyAlignVisibility(): void {
-    const on = this.aligned
+    const far = this.viewMode === "far"
+    const on = this.aligned && !far
     this.ruler.getSceneObject().enabled = on
     this.overlay.ghostRoot.enabled = on
     if (this.edgePin) this.edgePin.enabled = on
     this.seatShake.setGrabEnabled(on)
     if (this.alignZero) {
-      if (on) this.alignZero.hidePrompt()
+      if (this.aligned || far) this.alignZero.hidePrompt()
       else this.alignZero.showPrompt()
     }
   }
@@ -299,7 +336,7 @@ export class BeltPathMain extends BaseScriptComponent {
    * front-face plane; only its position along its own axis changes. Nothing is measured.
    */
   private onAlignPinched(world: vec3): void {
-    if (this.aligned || this.state.phase !== "start") return
+    if (this.aligned || this.state.phase !== "start" || this.viewMode === "far") return
     const rulerT = this.ruler.getSceneObject().getTransform()
     const parent = this.ruler.getSceneObject().getParent()
     const toLocal = parent ? parent.getTransform().getInvertedWorldTransform() : mat4.identity()
@@ -359,7 +396,69 @@ export class BeltPathMain extends BaseScriptComponent {
   }
 
   private onUpdate(): void {
+    this.updateViewMode()
     this.updateOffViewCue()
+  }
+
+  /** Camera to belt path target (cm); the test override wins. Null without a camera. */
+  getViewerDistanceCm(): number | null {
+    if (this.distOverrideCm !== null) return this.distOverrideCm
+    if (!this.cam) return null
+    return this.cam.getTransform().getWorldPosition().distance(this.beltPathTarget.getTransform().getWorldPosition())
+  }
+
+  /** Hysteresis + 0.3 s hold; switches only in the start phase (never while answering or on a card). */
+  private updateViewMode(): void {
+    const d = this.getViewerDistanceCm()
+    if (d === null) return
+    const want: ViewMode = d >= BeltPathMain.FAR_CM ? "far" : d <= BeltPathMain.NEAR_CM ? "near" : this.viewMode
+    if (want === this.viewMode || this.state.phase !== "start") { this.pendingMode = null; return }
+    const now = getTime()
+    if (this.pendingMode !== want) { this.pendingMode = want; this.pendingSince = now; return }
+    if (now - this.pendingSince < BeltPathMain.MODE_HOLD_S) return
+    this.pendingMode = null
+    if (want === "far") this.enterFar()
+    else this.enterNear()
+  }
+
+  /** Parent stepped back: everything but the band fades out (250 ms ease-in), the seat cannot be grabbed. */
+  private enterFar(): void {
+    this.viewMode = "far"
+    print("BeltPath: view far (d " + (this.getViewerDistanceCm() || 0).toFixed(1) + " cm)")
+    this.cancelStagger()
+    this.overlay.setBandOpacity(1)
+    this.overlay.setBandRise(0)
+    this.seatShake.setGrabEnabled(false)
+    this.overlay.setHighlight(false)
+    if (this.alignZero) this.alignZero.hidePrompt()
+    if (this.startLabels) this.startLabels.setFar(true, this.beltPathTarget)
+    // Standing at the door looking elsewhere: the edge arrow and chime may point at the seat again.
+    this.cueDone = false
+    this.cueChimed = false
+    if (this.aligned) {
+      this.stagger.push(tween(this, {
+        durMs: MotionMs.labelFadeOut, ease: easeIn, from: 1, to: 0,
+        onUpdate: (v) => { this.ruler.setOpacity(v); this.overlay.setGhostOpacity(v); this.setPinPose(v, 0) },
+        onDone: () => { if (this.viewMode === "far") this.applyAlignVisibility() },
+      }))
+    } else {
+      this.applyAlignVisibility()
+    }
+  }
+
+  /** Parent knelt: the word leaves (180 ms) and the ruler comes back with the start stagger. */
+  private enterNear(): void {
+    this.viewMode = "near"
+    print("BeltPath: view near (d " + (this.getViewerDistanceCm() || 0).toFixed(1) + " cm)")
+    this.cancelStagger()
+    if (this.startLabels) this.startLabels.setFar(false)
+    if (this.aligned) {
+      this.ruler.setOpacity(0)
+      this.overlay.setGhostOpacity(0)
+      this.setPinPose(0, MotionCm.staggerRise)
+    }
+    this.applyAlignVisibility()
+    if (this.aligned) this.runStagger(false)
   }
 
   private updateOffViewCue(): void {
@@ -462,6 +561,17 @@ export class BeltPathMain extends BaseScriptComponent {
     this.ruler.getSceneObject().getTransform().setLocalPosition(this.rulerHome)
     this.overlay.ghostRoot.getTransform().setLocalPosition(this.ghostHome)
     this.enterStart()
+  }
+
+  getViewMode(): ViewMode { return this.viewMode }
+  isGrabEnabled(): boolean { return this.seatShake.isGrabEnabled() }
+  isFarLabelShown(): boolean { return !!this.startLabels && this.startLabels.isFarLabelShown() }
+  getFarLabelWorld(): vec3 | null { return this.startLabels ? this.startLabels.getFarLabelWorld() : null }
+
+  /** Test/debug: pretend the camera is `cm` from the belt path target (null = the real camera). */
+  debugSetViewerDistanceCm(cm: number | null): void {
+    this.distOverrideCm = cm === null || cm === undefined ? null : cm
+    this.pendingMode = null
   }
 
   debugBeginGrab(): void { this.seatShake.debugBeginDrag() }

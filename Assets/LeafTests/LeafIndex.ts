@@ -6,6 +6,7 @@ import { BeltPathC3AnswerCardsScenario } from "./BeltPathC3AnswerCardsScenario"
 import { BeltPathC4CheckAgainScenario } from "./BeltPathC4CheckAgainScenario"
 import { BeltPathC5DemoToggleScenario } from "./BeltPathC5DemoToggleScenario"
 import { BeltPathC6AlignZeroScenario } from "./BeltPathC6AlignZeroScenario"
+import { BeltPathC7DistanceModeScenario } from "./BeltPathC7DistanceModeScenario"
 
 @component
 export class LeafIndex extends BaseScriptComponent {
@@ -17,5 +18,6 @@ export class LeafIndex extends BaseScriptComponent {
     { id: "beltpath-c4-check-again", typename: BeltPathC4CheckAgainScenario.getTypeName() },
     { id: "beltpath-c5-demo-toggle", typename: BeltPathC5DemoToggleScenario.getTypeName() },
     { id: "beltpath-c6-align-zero", typename: BeltPathC6AlignZeroScenario.getTypeName() },
+    { id: "beltpath-c7-distance-mode", typename: BeltPathC7DistanceModeScenario.getTypeName() },
   ]
 }
