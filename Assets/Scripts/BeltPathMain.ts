@@ -25,7 +25,10 @@
  *   grabbing  → buttons + card hidden. Nothing reacts to the red plate: the Lens never
  *               measures, the parent judges the edge pin against the plate by eye.
  *   answering → on release, the two answer buttons appear 10 cm above the belt path.
- *   result    → the parent's own answer picks the card; "Check again" restores start.
+ *   result    → the parent's own answer picks the card; "Check again" restores start. With the
+ *               red card ("Crossed the line") the real seat belt buckle (buckleTarget) gets a
+ *               band-colored box: step 1 "Lock the belt" points at the thing itself. Not on the
+ *               Stayed card, never in start.
  *
  * Expects (@input): every controller/UI component below (wired by the bootstrap) and the
  * BeltPathTarget anchor (a point on the belt path used for the off-view check).
@@ -37,7 +40,8 @@
  * isRulerShown, debugResetAlignment, isResultCardVisible, isOffViewCueVisible,
  * pressCrossedLine, pressStayedInside, pressCheckAgain, debugBeginGrab, debugDragTo,
  * debugRelease, getOverlayOpacity, isMotionSettled, setReduceMotion, getViewMode,
- * getViewerDistanceCm, debugSetViewerDistanceCm, isFarLabelShown, isGrabEnabled. The instance is also
+ * getViewerDistanceCm, debugSetViewerDistanceCm, isFarLabelShown, isGrabEnabled, isStepHighlightShown,
+ * getStepHighlightAlpha, isStepHighlightHolding. The instance is also
  * published as global.beltPath.
  */
 import WorldCameraFinderProvider from "SpectaclesInteractionKit.lspkg/Providers/CameraProvider/WorldCameraFinderProvider"
@@ -117,6 +121,11 @@ export class BeltPathMain extends BaseScriptComponent {
   @allowUndefined
   @hint("Edge pin on the car seat; hidden until the ruler is aligned.")
   edgePin: SceneObject
+
+  @input
+  @allowUndefined
+  @hint("The seat belt buckle on the bench; outlined with the red card (step 1 \"Lock the belt\"). No input = no highlight.")
+  buckleTarget: SceneObject
   @ui.group_end
 
   @ui.separator
@@ -204,6 +213,7 @@ export class BeltPathMain extends BaseScriptComponent {
       this.pinHome = this.edgePin.getTransform().getLocalPosition()
       this.collectPinMats(this.edgePin)
     }
+    if (this.buckleTarget) this.overlay.buildHighlight(this.buckleTarget)
     if (this.alignZero) {
       this.alignZero.onPinched.add((p) => this.onAlignPinched(p))
     } else {
@@ -234,6 +244,7 @@ export class BeltPathMain extends BaseScriptComponent {
     this.state.restart()
     this.answers.hide()
     this.resultCard.hide()
+    this.overlay.setStepHighlight(false)
     this.seatShake.snapHome()
     this.prevOffset = 0
     this.cueChimed = false
@@ -497,6 +508,8 @@ export class BeltPathMain extends BaseScriptComponent {
     // The card floats over the seat; a pinch on it must never start a shake.
     this.seatShake.setGrabEnabled(false)
     this.resultCard.showCrossed()
+    // Step 1 "Lock the belt": the real buckle lights up with the card.
+    this.overlay.setStepHighlight(true)
   }
 
   pressStayedInside(): void {
@@ -506,6 +519,7 @@ export class BeltPathMain extends BaseScriptComponent {
     this.overlay.setHighlight(false)
     this.answers.hide()
     this.seatShake.setGrabEnabled(false)
+    this.overlay.setStepHighlight(false)
     this.resultCard.showStayed()
   }
 
@@ -539,6 +553,9 @@ export class BeltPathMain extends BaseScriptComponent {
   isOffViewCueVisible(): boolean { return this.offViewCue.isShown() }
   getOverlayOpacity(): number { return this.overlay.getOpacity() }
   getRulerOpacity(): number { return this.ruler.getOpacity() }
+  isStepHighlightShown(): boolean { return this.overlay.isStepHighlightShown() }
+  getStepHighlightAlpha(): number { return this.overlay.getStepHighlightAlpha() }
+  isStepHighlightHolding(): boolean { return this.overlay.isStepHighlightHolding() }
 
   /** True when no animation is running and the seat is at rest (tests wait for this). */
   isMotionSettled(): boolean {

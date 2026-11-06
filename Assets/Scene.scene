@@ -1560,6 +1560,8 @@
     ghostBoxSizeCm: true
     ghostEdgeCm: true
     ghostInflateCm: true
+    highlightPadCm: true
+    highlightHoldAlpha: true
   ScriptTypesDefault:
     {}
   ScriptInputs:
@@ -1574,6 +1576,8 @@
       ghostBoxSizeCm: !<Vec3> {x: 44.000000, y: 16.000000, z: 42.000000}
       ghostEdgeCm: 0.300000
       ghostInflateCm: 0.400000
+      highlightPadCm: !<float> 2.000000
+      highlightHoldAlpha: 0.550000
   ScriptTypes:
     "":
       {}
@@ -2012,6 +2016,7 @@
       startLabels: !<MappingBased.AssignableType_9> 1dea7b55-b8cc-47a8-898f-186e0e17b398
       alignZero: !<MappingBased.AssignableType_10> 3edc44ad-9b8b-4b96-9f28-6aa364444e55
       edgePin: !<reference.SceneObject> 1a258d02-972d-4739-801b-6f1469892319
+      buckleTarget: !<reference.SceneObject> 61976e96-3263-4928-9e86-10fa48af3d8c
       looseLimitCm: !<float> 4.000000
       tightLimitCm: !<float> 1.000000
       defaultMode: Loose

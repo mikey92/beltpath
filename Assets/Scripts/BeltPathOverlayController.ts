@@ -8,10 +8,17 @@
  * Expects (@input): bandRoot (BeltPathBand group on the car seat, its children carry
  * RenderMeshVisuals), ghostRoot (GhostOutline, vehicle-anchored), edgeMesh (unit box).
  *
+ * Step highlight (L3): buildHighlight(target) draws a band-colored 12-edge box (same edges as the
+ * ghost) 2 cm around the target's mesh bounds — the real seat belt buckle, whose latch plate sits
+ * inside that margin. setStepHighlight(true) shows it with the red card: fade in 250 ms (ease-out),
+ * 3 gentle pulses like the align marker, then it holds alpha 0.55 (nothing loops); false fades it
+ * out (180 ms) and switches it off. Reduce motion: no fade, no pulse. No collider (never takes a pinch).
+ *
  * Must not: move the seat, judge anything, or own flow state. The main script drives the
  * fades: setOpacity() for both, or setBandOpacity()/setGhostOpacity() plus setBandRise()/
  * setGhostRise() (cm below the resting place) for the start stagger (motion spec 2).
  */
+import { easeIn, easeOut, isReduceMotion, MotionMs, Tween, tween } from "./BeltPathMotion"
 
 @component
 export class BeltPathOverlayController extends BaseScriptComponent {
@@ -68,6 +75,16 @@ export class BeltPathOverlayController extends BaseScriptComponent {
   @hint("How far (cm) the ghost sits outside the seat surface so it stays visible at rest.")
   @widget(new SliderWidget(0, 1.5, 0.05))
   ghostInflateCm: number = 0.4
+
+  @input
+  @hint("Margin (cm) between the buckle and its highlight box.")
+  @widget(new SliderWidget(0, 4, 0.1))
+  highlightPadCm: number = 2
+
+  @input
+  @hint("Highlight alpha it holds after its 3 pulses.")
+  @widget(new SliderWidget(0.1, 1, 0.05))
+  highlightHoldAlpha: number = 0.55
   @ui.group_end
 
   private bandMats: Material[] = []
@@ -77,6 +94,12 @@ export class BeltPathOverlayController extends BaseScriptComponent {
   private highlighted: boolean = false
   private bandHome: vec3 = vec3.zero()
   private ghostRise!: SceneObject
+  private highlightRoot: SceneObject | null = null
+  private highlightMat: Material | null = null
+  private highlightShown: boolean = false
+  private highlightFade: number = 0
+  private highlightT: number = 0
+  private highlightTw: Tween | null = null
 
   onAwake(): void {
     if (!this.bandRoot || !this.ghostRoot || !this.edgeMesh || !this.overlayMaterial) {
@@ -91,6 +114,103 @@ export class BeltPathOverlayController extends BaseScriptComponent {
     this.ghostRise.setParent(this.ghostRoot)
     this.buildGhost()
     this.refresh()
+    this.createEvent("UpdateEvent").bind(() => this.onUpdate())
+  }
+
+  // ── Step highlight (the real buckle, with the red card) ────────────
+
+  /**
+   * Builds the highlight box around `target`'s render mesh bounds (+ highlightPadCm). It hangs under
+   * the target's parent with the target's local pose, so a non-uniform target scale does not stretch
+   * the edges. Built once; starts switched off.
+   */
+  buildHighlight(target: SceneObject): void {
+    if (this.highlightRoot || !target || !this.edgeMesh || !this.overlayMaterial) return
+    const rmv = target.getComponent("Component.RenderMeshVisual") as RenderMeshVisual
+    if (!rmv || !rmv.mesh) {
+      print("BeltPathOverlayController: highlight target " + target.name + " has no render mesh.")
+      return
+    }
+    const tt = target.getTransform()
+    const sc = tt.getLocalScale()
+    const a = rmv.mesh.aabbMin
+    const b = rmv.mesh.aabbMax
+    const center = new vec3((a.x + b.x) / 2 * sc.x, (a.y + b.y) / 2 * sc.y, (a.z + b.z) / 2 * sc.z)
+    const pad = this.highlightPadCm
+    const hx = Math.abs(b.x - a.x) * Math.abs(sc.x) / 2 + pad
+    const hy = Math.abs(b.y - a.y) * Math.abs(sc.y) / 2 + pad
+    const hz = Math.abs(b.z - a.z) * Math.abs(sc.z) / 2 + pad
+    const root = global.scene.createSceneObject("BuckleHighlight")
+    const parent = target.getParent()
+    if (parent) root.setParent(parent)
+    const rt = root.getTransform()
+    rt.setLocalPosition(tt.getLocalPosition())
+    rt.setLocalRotation(tt.getLocalRotation())
+    this.highlightMat = this.overlayMaterial.clone()
+    const t = this.ghostEdgeCm
+    const add = (pos: vec3, scale: vec3): void => {
+      const so = global.scene.createSceneObject("BuckleHighlightEdge")
+      so.setParent(root)
+      so.getTransform().setLocalPosition(center.add(pos))
+      so.getTransform().setLocalScale(scale)
+      const r = so.createComponent("Component.RenderMeshVisual") as RenderMeshVisual
+      r.mesh = this.edgeMesh
+      r.mainMaterial = this.highlightMat
+    }
+    for (const y of [-hy, hy]) for (const z of [-hz, hz]) add(new vec3(0, y, z), new vec3(2 * hx + t, t, t))
+    for (const x of [-hx, hx]) for (const z of [-hz, hz]) add(new vec3(x, 0, z), new vec3(t, 2 * hy + t, t))
+    for (const x of [-hx, hx]) for (const y of [-hy, hy]) add(new vec3(x, y, 0), new vec3(t, t, 2 * hz + t))
+    this.highlightRoot = root
+    root.enabled = false
+    this.paintHighlight()
+  }
+
+  /** Shows (with the red card) or hides the buckle highlight. */
+  setStepHighlight(on: boolean): void {
+    if (!this.highlightRoot) return
+    if (on === this.highlightShown) return
+    this.highlightShown = on
+    if (this.highlightTw) { this.highlightTw.cancel(); this.highlightTw = null }
+    if (on) {
+      this.highlightT = 0
+      this.highlightRoot.enabled = true
+      this.highlightTw = tween(this, {
+        durMs: MotionMs.slideIn, ease: easeOut, from: this.highlightFade, to: 1,
+        onUpdate: (v) => { this.highlightFade = v; this.paintHighlight() },
+      })
+    } else {
+      this.highlightTw = tween(this, {
+        durMs: MotionMs.slideOut, ease: easeIn, from: this.highlightFade, to: 0,
+        onUpdate: (v) => { this.highlightFade = v; this.paintHighlight() },
+        onDone: () => { if (!this.highlightShown && this.highlightRoot) this.highlightRoot.enabled = false },
+      })
+    }
+  }
+
+  isStepHighlightShown(): boolean { return this.highlightShown }
+  getStepHighlightObject(): SceneObject | null { return this.highlightRoot }
+  /** Highlight alpha right now (tests). */
+  getStepHighlightAlpha(): number { return this.highlightMat ? this.highlightMat.mainPass.baseColor.w : 0 }
+  /** True once the 3 pulses are over (or under reduce motion): the alpha holds. */
+  isStepHighlightHolding(): boolean {
+    return isReduceMotion() || this.highlightT >= 3 * MotionMs.markerPulse / 1000
+  }
+
+  private onUpdate(): void {
+    if (!this.highlightRoot || !this.highlightRoot.enabled) return
+    this.highlightT += getDeltaTime()
+    this.paintHighlight()
+  }
+
+  /** AlignZeroUI.paint pattern: 3 gentle pulses around the hold alpha, then it holds. */
+  private paintHighlight(): void {
+    if (!this.highlightMat) return
+    let a = this.highlightHoldAlpha
+    if (!isReduceMotion() && this.highlightT < 3 * MotionMs.markerPulse / 1000) {
+      a = this.highlightHoldAlpha + 0.3 * Math.sin(this.highlightT * 2 * Math.PI / (MotionMs.markerPulse / 1000))
+    }
+    const c = this.bandColor
+    this.highlightMat.mainPass.baseColor = new vec4(c.x, c.y, c.z, Math.max(0, Math.min(1, a)) * this.highlightFade)
   }
 
   /** 0..1 multiplier on band + ghost alpha (used by the start fade-in). */

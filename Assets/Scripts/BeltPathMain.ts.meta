@@ -32,6 +32,7 @@
     answers: false
     audio: false
     beltPathTarget: false
+    buckleTarget: false
     defaultMode: false
     demoToggle: false
     edgePin: false
@@ -66,6 +67,7 @@
       startLabels: !<MappingBased.AssignableType_9> 00000000-0000-0000-0000-000000000000
       alignZero: !<MappingBased.AssignableType_10> 00000000-0000-0000-0000-000000000000
       edgePin: !<reference.SceneObject> 00000000-0000-0000-0000-000000000000
+      buckleTarget: !<reference.SceneObject> 00000000-0000-0000-0000-000000000000
       looseLimitCm: !<float> 4.000000
       tightLimitCm: !<float> 1.000000
       defaultMode: Loose
@@ -91,6 +93,7 @@
     - '// @input AssignableType_9 startLabels {"hint":"\"Belt path\" + the shake hint \"Grab the seat here and shake\", shown for 3 s at every near start."}'
     - '// @input AssignableType_10 alignZero {"hint":"One-time pinch on the seat edge that sets the ruler 0 (no input = ruler already aligned)."}'
     - '// @input SceneObject edgePin {"hint":"Edge pin on the car seat; hidden until the ruler is aligned."}'
+    - '// @input SceneObject buckleTarget {"hint":"The seat belt buckle on the bench; outlined with the red card (step 1 \"Lock the belt\"). No input = no highlight."}'
     - '// @ui {"widget":"group_end"}'
     - '// @ui {"widget":"separator"}'
     - '// @ui {"widget":"label", "label":"<span style=\"color: #60A5FA;\">Settings</span>"}'
