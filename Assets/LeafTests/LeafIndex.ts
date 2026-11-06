@@ -7,6 +7,9 @@ import { BeltPathC4CheckAgainScenario } from "./BeltPathC4CheckAgainScenario"
 import { BeltPathC5DemoToggleScenario } from "./BeltPathC5DemoToggleScenario"
 import { BeltPathC6AlignZeroScenario } from "./BeltPathC6AlignZeroScenario"
 import { BeltPathC7DistanceModeScenario } from "./BeltPathC7DistanceModeScenario"
+import { BeltPathC8ShakeHintScenario } from "./BeltPathC8ShakeHintScenario"
+import { BeltPathC11NeverMeasuresScenario } from "./BeltPathC11NeverMeasuresScenario"
+import { BeltPathC12ReduceMotionScenario } from "./BeltPathC12ReduceMotionScenario"
 
 @component
 export class LeafIndex extends BaseScriptComponent {
@@ -19,5 +22,8 @@ export class LeafIndex extends BaseScriptComponent {
     { id: "beltpath-c5-demo-toggle", typename: BeltPathC5DemoToggleScenario.getTypeName() },
     { id: "beltpath-c6-align-zero", typename: BeltPathC6AlignZeroScenario.getTypeName() },
     { id: "beltpath-c7-distance-mode", typename: BeltPathC7DistanceModeScenario.getTypeName() },
+    { id: "beltpath-c8-shake-hint", typename: BeltPathC8ShakeHintScenario.getTypeName() },
+    { id: "beltpath-c11-never-measures", typename: BeltPathC11NeverMeasuresScenario.getTypeName() },
+    { id: "beltpath-c12-reduce-motion", typename: BeltPathC12ReduceMotionScenario.getTypeName() },
   ]
 }

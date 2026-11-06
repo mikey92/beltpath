@@ -43,7 +43,7 @@ A parent kneels on the floor in front of the back seat, grabs the rear-facing ca
 - Button look (all buttons: the two answers, "Check again", the demo toggle): light frosted fill like the cards (0.35, 0.42, 0.55 at 85%, about 5.4:1 with white text; hover and press slightly lighter, still at least 4.5:1), white semibold (600) text, 0.3 cm colored border (red / green; "Check again" takes its card's border color; demo toggle amber). Aimed at: brighter fill and thicker, lighter border. Pressed: brighter still.
 - Align hint: "Pinch the seat edge at the belt path", white, 1.0 cm, just above the band at the seat's side edge, with a faint light-blue marker (3 cm wide) on the edge that pulses 3 times, then holds; it brightens when aimed at. Shown only until the align pinch.
 - Result card: same place the buttons were. Light frosted fill (0.35, 0.42, 0.55 at 85%), red or white 0.3 cm border, white semibold text. Both cards 16 x 8 cm scaled 1.25x (20 x 10 cm, about 70 cm from the eyes) with 0.8 cm text and a 0.7 cm footnote; a 9 x 2.4 cm "Check again" button.
-- Start labels: "Belt path" beside the band and "Rear-facing car seat" on the shell, white, 1.2 cm.
+- Start labels: "Belt path" beside the band and the shake hint "Grab the seat here and shake" on the seat's side, white, 1.2 cm.
 - Demo toggle (demo only, not part of the real-glasses design): small 6 x 3 cm toggle "DEMO: Loose / Tight" on the left door armrest, outside the view while looking at the belt path.
 
 ## Hands and input
@@ -57,8 +57,8 @@ Mouse = one hand pinching.
 - No two-hand gestures, no custom gestures, no voice.
 
 ## When things show
-- Align (first time only): the band shows with the hint "Pinch the seat edge at the belt path"; the ruler, ghost outline and edge pin are hidden. After the pinch the ruler 0 and the ghost edge go to the seat edge (they never move more than 0.5 cm, so at rest the edge pin stands on ruler 0), the hint fades out and the parts come in one after another (see Motion below); the two start labels show for 2 s once the hint is gone.
-- Start: band, ghost outline, ruler strip, numbers, red plate and edge pin come in one after another (see Motion below). The two start labels show for 2 s, then fade. No cards or panels. "Check again" does not ask for the align pinch again.
+- Align (first time only): the band shows with the hint "Pinch the seat edge at the belt path"; the ruler, ghost outline and edge pin are hidden. After the pinch the ruler 0 and the ghost edge go to the seat edge (they never move more than 0.5 cm, so at rest the edge pin stands on ruler 0), the hint fades out and the parts come in one after another (see Motion below); the two start labels (incl. the shake hint) show for 3 s once the hint is gone. Grabbing the seat ends them at once; they never show in the far view.
+- Start: band, ghost outline, ruler strip, numbers, red plate and edge pin come in one after another (see Motion below). The two start labels show for 3 s, then fade (gone at once on a grab; not in the far view). No cards or panels. "Check again" does not ask for the align pinch again.
 - While grabbing: buttons and card hidden. Nothing flashes or sounds at the red plate: the Lens never measures, so it never reacts to the movement. The parent watches the pin against the plate.
 - On release: the two buttons "Crossed the line" (red border) and "Stayed inside" (green border) appear 10 cm above the belt path, about 70 cm from the eyes (about 9 x 5 cm each). Pressing either hides the buttons, turns off the band's aimed-at glow, and shows the result card in the same spot (20 x 10 cm, white 0.8 cm text, 0.7 cm footnote, a "Check again" button in the card's border color).
 - "Crossed the line" → red-bordered card, three steps (NHTSA's install order):
@@ -77,7 +77,7 @@ Owner-approved changes made after the first build and the independent judge revi
 - Removed the red-line flash and tick sound (the Lens never measures).
 - Car seat: rear-facing shell with reclined backrest, head wings, light-teal accent edges, 5-point harness, chest clip, crotch buckle, head pad; vehicle lap belt in dark gray webbing with a silver latch plate into a silver buckle on the bench, right of the seat.
 - Belt path band is semi-transparent so the belt shows through.
-- Start labels "Belt path" and "Rear-facing car seat" for 2 s.
+- Start labels "Belt path" and "Grab the seat here and shake" for 3 s.
 - Cards: shorter wording (above), red card 16 x 9 cm, light frosted fill, no raw URL; buttons and cards sit above the seat front face, still 10 cm above the belt path, about 56 cm from the eyes (over the bench they were clipped by the SPECS view); they draw on top so the virtual seat back cannot hide them.
 
 - Fix pass (2026-11-05): all buttons restyled from the dark UI Kit default to the cards' light frosted fill with white semibold text and 0.3 cm colored borders; hover/press stay visible.
@@ -94,7 +94,7 @@ Owner-approved changes made after the first build and the independent judge revi
   - Done criterion 1 also checks that the ruler lies within the central 70% of the view width.
   - Screenshots: the camera looks 1.5° down so the ruler sits near the lower third (about 73% down the frame). Looking down 3° would put it at the lower-third line but cut off the top of the result card, which must stay 10 cm above the belt path.
 - Motion (owner request, 2026-11-05). Calm and short; nothing loops, nothing moves toward the face, no parallax, nothing moves while the parent shakes the seat:
-  - Start labels and the align hint fade in (300 ms, ease-out); the labels leave after 2 s (250 ms, ease-in). After the align pinch the labels wait until the hint has faded out, so the two never overlap.
+  - Start labels and the align hint fade in (300 ms, ease-out); the labels leave after 3 s (250 ms, ease-in). After the align pinch the labels wait until the hint has faded out, so the two never overlap.
   - After the align pinch, band, ghost outline, ruler strip, numbers 0 to 10, red plate and edge pin come in one after another, 80 ms apart, 220 ms each (ease-out); band, ghost and pin also rise 0.5 cm, the ruler parts only fade (they sit low in the view). About 0.6 s in total.
   - Answer buttons and cards rise 2 cm from below their spot while fading in (250 ms, ease-out; left button first, right 60 ms later) and leave by fading down 1 cm (180 ms, ease-in).
   - While dragging, the seat follows the hand 1:1. On release it springs back critically damped in about 400 ms with no overshoot; the edge pin moves with it exactly.

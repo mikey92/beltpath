@@ -763,8 +763,9 @@
   ScriptAsset: !<reference> 4ce409b4-b19c-4b9b-9358-fa37c6203111
   ScriptInputsDefault:
     beltPathText: true
-    shellText: true
     textCm: true
+    farTextCm: true
+    farAboveCm: true
   ScriptTypesDefault:
     {}
   ScriptInputs:
@@ -772,8 +773,10 @@
       beltPathAnchor: !<reference.SceneObject> 8e7db289-5367-4e65-95ca-ee66e063682c
       shellAnchor: !<reference.SceneObject> 1a4a6cec-3212-443c-abcb-1da962e5aed1
       beltPathText: Belt path
-      shellText: Rear-facing car seat
+      shellText: Grab the seat here and shake
       textCm: 1.200000
+      farTextCm: !<float> 3.000000
+      farAboveCm: !<float> 12.000000
   ScriptTypes:
     "":
       {}

@@ -88,7 +88,7 @@
     - '// @input AssignableType_7 offViewCue {"hint":"Edge-of-view arrow pointing at the seat when it is out of view at start."}'
     - '// @input AssignableType_8 audio {"hint":"Chime / click cues."}'
     - '// @input SceneObject beltPathTarget {"hint":"Point on the belt path used to test whether the seat is in view."}'
-    - '// @input AssignableType_9 startLabels {"hint":"\"Belt path\" / \"Rear-facing car seat\" labels shown for 2 s at every start."}'
+    - '// @input AssignableType_9 startLabels {"hint":"\"Belt path\" + the shake hint \"Grab the seat here and shake\", shown for 3 s at every near start."}'
     - '// @input AssignableType_10 alignZero {"hint":"One-time pinch on the seat edge that sets the ruler 0 (no input = ruler already aligned)."}'
     - '// @input SceneObject edgePin {"hint":"Edge pin on the car seat; hidden until the ruler is aligned."}'
     - '// @ui {"widget":"group_end"}'

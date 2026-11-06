@@ -1,13 +1,14 @@
 /**
- * BeltPathStartLabelsUI — two short on-object labels at the start of each check:
- * "Belt path" beside the band and "Rear-facing car seat" on the shell. White, 1.2 cm tall,
- * shown for 2 s and then faded out, so the parent knows what they are looking at and then
- * the view is clear for the check.
+ * BeltPathStartLabelsUI — two short on-object labels at the start of each check (near view only):
+ * "Belt path" beside the band and the onboarding hint "Grab the seat here and shake" on the seat's
+ * side (LabelAnchorShell). White, 1.2 cm tall, shown for 3 s and then faded out, so the parent knows
+ * what to do and then the view is clear for the check. Grabbing the seat ends them at once (endNow).
  *
  * Expects (@input): two anchor SceneObjects placed on the car seat (they move with it).
  * Public API: showBriefly() (called by BeltPathMain at every start), isShowing().
- * Motion (motion spec 1): fade in ease-out 300 ms, hold 2 s, fade out ease-in 250 ms
- * (BeltPathMotion; under reduce motion the fades are instant, the 2 s hold stays).
+ * Motion (motion spec 1): fade in ease-out 300 ms, hold 3 s, fade out ease-in 250 ms
+ * (BeltPathMotion; under reduce motion the fades are instant, the 3 s hold stays).
+ * Never in the far view: setFar(true) ends them and showBriefly() does nothing while far.
  * Far view (setFar): when the parent stands back (BeltPathMain's distance mode) one word, "Belt path",
  * stands 12 cm above the belt path target: white, 3 cm, weight 600, turned about the vertical only to
  * face the parent (yaw billboard), steady (fade in 300 ms ease-out, out 180 ms ease-in, no blinking).
@@ -18,7 +19,7 @@ import { easeIn, easeOut, MotionMs, sec, Tween, tween } from "./BeltPathMotion"
 
 @component
 export class BeltPathStartLabelsUI extends BaseScriptComponent {
-  @ui.label('<span style="color: #60A5FA;">BeltPathStartLabelsUI – "Belt path" / "Rear-facing car seat" for 2 s</span>')
+  @ui.label('<span style="color: #60A5FA;">BeltPathStartLabelsUI – "Belt path" / shake hint for 3 s</span>')
   @ui.separator
 
   @input
@@ -26,14 +27,14 @@ export class BeltPathStartLabelsUI extends BaseScriptComponent {
   beltPathAnchor!: SceneObject
 
   @input
-  @hint("Anchor on the car seat shell.")
+  @hint("Anchor on the car seat's side (the shake hint stands here).")
   shellAnchor!: SceneObject
 
   @input
   beltPathText: string = "Belt path"
 
   @input
-  shellText: string = "Rear-facing car seat"
+  shellText: string = "Grab the seat here and shake"
 
   @input
   @hint("Text height (cm of em).")
@@ -126,10 +127,12 @@ export class BeltPathStartLabelsUI extends BaseScriptComponent {
   }
 
   /**
-   * Fade in, hold 2 s (fully visible), fade out. Restarts if called again. `delayMs` waits first
+   * Fade in, hold 3 s (fully visible), fade out. Restarts if called again. `delayMs` waits first
    * (after the align pinch: until the align hint has faded out, so the two never overlap).
+   * Does nothing in the far view (the parent is not at the seat; only the one word shows).
    */
   showBriefly(delayMs: number = 0): void {
+    if (this.farOn) return
     this.showing = true
     this.fade(1, MotionMs.fadeIn, easeOut, undefined, delayMs)
     if (this.holdEv) this.holdEv.reset(sec(delayMs) + sec(MotionMs.fadeIn) + MotionMs.labelHold / 1000)

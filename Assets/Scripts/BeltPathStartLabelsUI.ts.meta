@@ -30,6 +30,8 @@
   ScriptInputsHidden:
     beltPathAnchor: false
     beltPathText: false
+    farAboveCm: false
+    farTextCm: false
     shellAnchor: false
     shellText: false
     textCm: false
@@ -47,14 +49,18 @@
       beltPathText: Belt path
       shellText: Rear-facing car seat
       textCm: 1.200000
+      farTextCm: !<float> 3.000000
+      farAboveCm: !<float> 12.000000
   ScriptTypes:
     -
       {}
   InputLines:
-    - '// @ui {"widget":"label", "label":"<span style=\"color: #60A5FA;\">BeltPathStartLabelsUI – \"Belt path\" / \"Rear-facing car seat\" for 2 s</span>"}'
+    - '// @ui {"widget":"label", "label":"<span style=\"color: #60A5FA;\">BeltPathStartLabelsUI – \"Belt path\" / shake hint for 3 s</span>"}'
     - '// @ui {"widget":"separator"}'
     - '// @input SceneObject beltPathAnchor {"hint":"Anchor beside the belt path band."}'
-    - '// @input SceneObject shellAnchor {"hint":"Anchor on the car seat shell."}'
+    - "// @input SceneObject shellAnchor {\"hint\":\"Anchor on the car seat's side (the shake hint stands here).\"}"
     - '// @input string beltPathText = "Belt path"'
-    - '// @input string shellText = "Rear-facing car seat"'
+    - '// @input string shellText = "Grab the seat here and shake"'
     - '// @input float textCm = 1.2 {"hint":"Text height (cm of em).", "widget":"slider", "min":0.5, "max":2, "step":0.05}'
+    - '// @input float farTextCm = 3 {"hint":"Far view: height (cm of em) of the one word shown above the belt path.", "widget":"slider", "min":1, "max":6, "step":0.1}'
+    - '// @input float farAboveCm = 12 {"hint":"Far view: how far (cm) above the belt path target the word stands.", "widget":"slider", "min":0, "max":30, "step":0.5}'

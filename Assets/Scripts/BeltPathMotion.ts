@@ -26,8 +26,8 @@ export function isReduceMotion(): boolean { return reduce }
 export const MotionMs = {
   /** 1. Start labels and align hint fade in (ease-out). */
   fadeIn: 300,
-  /** 1. Start labels stay this long before leaving (a hold, not an animation). */
-  labelHold: 2000,
+  /** 1. Start labels (incl. the shake hint) stay this long before leaving (a hold, not an animation). */
+  labelHold: 3000,
   /** 1. Start labels fade out (ease-in). */
   labelFadeOut: 250,
   /** 1. Align hint leaves after the pinch (ease-in). */

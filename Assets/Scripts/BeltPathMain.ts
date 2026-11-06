@@ -5,7 +5,9 @@
  *   align     → once, before the first shake: the band shows with the hint "Pinch the seat edge
  *               at the belt path"; ruler, ghost and edge pin are hidden and the seat cannot be
  *               grabbed. The pinch moves the ruler's 0 and the ghost's edge to the seat edge
- *               (snapped to the edge pin, at most 0.5 cm; the Lens still never measures). Then the ruler fades in and the start labels show.
+ *               (snapped to the edge pin, at most 0.5 cm; the Lens still never measures). Then the ruler fades in and the start labels show:
+ *               "Belt path" and, on the seat's side, "Grab the seat here and shake" for 3 s (gone at once on a grab;
+ *               never in the far view).
  *   start     → band, ghost, ruler strip, numbers, red plate, edge pin come in one after another
  *               (stagger: 80 ms apart, 220 ms ease-out each; band/ghost/pin also rise 0.5 cm, the
  *               ruler parts only fade). No cards. If the belt path is out of view, a chime plays
@@ -103,7 +105,7 @@ export class BeltPathMain extends BaseScriptComponent {
 
   @input
   @allowUndefined
-  @hint("\"Belt path\" / \"Rear-facing car seat\" labels shown for 2 s at every start.")
+  @hint("\"Belt path\" + the shake hint \"Grab the seat here and shake\", shown for 3 s at every near start.")
   startLabels: BeltPathStartLabelsUI
 
   @input
@@ -236,6 +238,8 @@ export class BeltPathMain extends BaseScriptComponent {
     this.prevOffset = 0
     this.cueChimed = false
     this.cueDone = false
+    // Labels from an earlier start never carry over (the align step and the far view show none).
+    if (this.startLabels) this.startLabels.endNow()
     this.applyAlignVisibility()
     if (this.viewMode === "far") {
       // Far: only the band (fading in, full opacity) and the one word; the ruler waits for near.
