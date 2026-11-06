@@ -15,11 +15,13 @@ Built for Devpost's *Learn AR with SPECS*. It was planned with the Devpost Learn
 Both hands are on the seat and the belt, so a phone can't be held. The ruler and the ghost line sit at the exact spot where the 1-inch rule is checked, at real size, and stay out of the way otherwise.
 
 ## What it does (one spatial moment)
+0. **Approach:** from the car door the Lens shows only the belt path band and the word "Belt path". Kneel down (closer than 80 cm) and the ruler appears.
 1. **Align:** "Pinch the seat edge at the belt path." The ruler's 0 and the ghost line snap to that point.
 2. **Shake:** grab the seat at the belt path and drag it side to side. An edge pin moves with the seat over a 10 cm ruler with an upright red plate at 2.5 cm (1 in). The ghost stays at 0.
+   After the pinch, "Grab the seat here and shake" shows for 3 s.
 3. **Answer:** release, then pick *Crossed the line* or *Stayed inside*.
 4. **Result:**
-   - Red card: *1 Lock the belt · 2 Press the seat down hard · 3 Pull the belt tight*.
+   - Red card: *1 Lock the belt · 2 Press the seat down hard · 3 Pull the belt tight*, and the real buckle is outlined.
    - White card: *No problem seen at the belt path. One check, not a full inspection.* plus where to get a free check.
    - Neither card ever says "pass" or "safe."
 
@@ -35,7 +37,7 @@ Both hands are on the seat and the belt, so a phone can't be held. The ruler and
 ## How it was built
 1. **Plan:** the Devpost `plan-lens` skill interviewed the idea and wrote `devpost/design-brief.md` (approved, with a "Changes after review" log).
 2. **Build:** Built in Lens Studio 5.23.2 with Snap's CLAD plugin and the Lens Studio MCP: scene, scripts and car interior. It runs in the Lens Studio preview.
-3. **Test:** six LEAF scenarios drive real SIK interactions in the preview.
+3. **Test:** 14 LEAF scenarios drive real SIK interactions in the preview; all pass.
 
 | # | Done criterion | LEAF |
 |---|---|---|
@@ -45,6 +47,14 @@ Both hands are on the seat and the belt, so a phone can't be held. The ruler and
 | 4 | Check again restores the start state | pass |
 | 5 | The demo toggle is outside the main view and works | pass |
 | 6 | Pinch-to-align: the ruler is hidden until the pinch, then 0 lands within 0.5 cm | pass |
+| 7 | Distance view: from the door only the band and the word "Belt path"; kneeling brings the ruler (with hysteresis) | pass |
+| 8 | Shake hint "Grab the seat here and shake" shows for 3 s after the pinch and leaves on a grab | pass |
+| 9 | Crossed card highlights the real buckle; gone after Check again or Stayed inside | pass |
+| 10 | Off-view arrow points to the seat and hides | pass |
+| 11 | Never measures: dragging past the red plate changes no color, text or sound | pass |
+| 12 | Reduce motion: every transition settles in the same frame | pass |
+| 14 | Switching to Tight during spring-back keeps the seat within 1 cm | pass |
+| 15 | Cards and buttons take the pinch before the seat | pass |
 
 4. **Review:** two independent design reviews against the judging criteria and Apple's spatial HIG led to the edge pin, the shorter cards, the higher contrast and the removal of the flash.
 
@@ -52,7 +62,7 @@ Both hands are on the seat and the belt, so a phone can't be held. The ruler and
 1. Open `BeltPath.esproj` in Lens Studio 5.23.2 or newer and choose **Interactive Preview**.
 2. Use WASD to move, Q and E to go down and up, and right-drag to look. Clicking acts as a pinch.
 3. Kneel at the seat. Pinch the seat edge, then drag the seat. Look left at the armrest to switch Loose and Tight.
-4. To run the tests, open the LEAF panel and run `beltpath-c1` … `beltpath-c6`.
+4. To run the tests, open the LEAF panel and run `beltpath-c1` … `beltpath-c15`.
 
 ## Limits (honest)
 - Preview only. The seat is virtual, and Loose/Tight are demo settings.
